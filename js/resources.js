@@ -4,11 +4,11 @@ game.resources = [
 	 * @example
 	 * {name: "example", type:"image", src: "data/img/example.png"},
 	 */
-
+	//loads the background tiles from the data folder, allowing it to display them on the map
 	{name: "background-tiles", type:"image", src: "data/img/background-tiles.png"},
-
+	//loads the background tiles from the data folder, allowing it to display them on the map
 	{name: "meta-tiles", type:"image", src: "data/img/meta-tiles.png"},
-
+	//loads the orc player from the data folder, allowing it to display it on the map
 	{name: "player", type:"image", src: "data/img/orcSpear.png"},
 	/* Atlases 
 	 * @example

@@ -191,6 +191,9 @@ game.PlayerEntity = me.Entity.extend ({
 		
 			onCollision: function() {
 				//empty onCollision function for later
+			},
+
+			loseHealth: function() {
 			}
 		}); 
 		//base entity similar to player
@@ -271,9 +274,18 @@ game.PlayerEntity = me.Entity.extend ({
 					this.renderable.setCurrentAnimation("walk");
 				},
 			
-				update : function() {
+				update : function(delta) {
+			this.body.vel.x -= this.body.accel.x * me.timer.tick;
+
+			this.body.update(delta);
+
+			this._super(me.Entity, "update", [delta]);
+			return true;
 
 	},
+
+		loseHealth: function() {
+		}
 });
 
 				game.GameManager = Object.extend({

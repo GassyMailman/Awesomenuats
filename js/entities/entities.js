@@ -40,6 +40,7 @@ game.PlayerEntity = me.Entity.extend ({
 		//me.timer.tick keeps movement smooth
 		else if(me.input.isKeyPressed("left")) {
 			this.body.vel.x -= this.body.accel.x * me.timer.tick;
+			this.flipX(false);
 		}
 		else {
 			//if not pressing, no change in velocity

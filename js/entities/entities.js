@@ -102,13 +102,28 @@ game.PlayerEntity = me.Entity.extend ({
 				var ydif = this.pos.y - response.b.pos.y;
 				var xdif = this.pos.x - response.b.pos.x;
 	
-				if(xdif > -35 && this.facing === 'right' && (xdif < 0)) {
+				if(ydif < -40 && xdif < 70 && xdif > -35) /* only checking if necaessary */ {
+				this.body.falling = false;
+				//stops player from fallng into base
+				this.body.vel.y = - 1;
+				//pushes player up from top
+			}
+				//need to check ydif first
+				else if(xdif > -35 /* xdif relation to found number */ && 
+				this.facing === 'right'  /* need to know which way facing */ && 
+				(xdif < 0)) {
 					this.body.vel.x = 0;
+					//stop player from moving
 					this.pos.x = this.pos.x - 1;
+					//slightly move player backwards
 				}
-				else if(xdif < 70 && this.facing === 'left' && xdif > 0) {
+				else if(xdif < 70 /* xdif relation to found number */ && 
+				this.facing === 'left' /* need to know which way facing */ && 
+				xdif > 0) {
 					this.body.vel.x = 0;
+					//stop player movement
 					this.pos.x = this.pos.x + 1;
+					//move player away slightly
 				}
 			}
 		}

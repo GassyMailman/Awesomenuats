@@ -10,6 +10,8 @@ game.resources = [
 	{name: "meta-tiles", type:"image", src: "data/img/meta-tiles.png"},
 	//loads the orc player from the data folder, allowing it to display it on the map
 	{name: "player", type:"image", src: "data/img/orcSpear.png"},
+	//resource for bases img
+	{name: "tower", type:"image", src: "data/img/tower_round.svg.png"}, 
 	/* Atlases 
 	 * @example
 	 * {name: "example_tps", type: "tps", src: "data/img/example_tps.json"},
@@ -22,7 +24,7 @@ game.resources = [
  	 */
 
  	//loads the map from the map folder and dislplays it
- 	{name: "level01", type: "tmx", src: "data/map/test.tmx"},
+ 	{name: "level01", type: "tmx", src: "data/map/level1.tmx"},
 
 
 	/* Background music. 

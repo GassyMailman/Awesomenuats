@@ -11,7 +11,8 @@ game.resources = [
 	//loads the orc player from the data folder, allowing it to display it on the map
 	{name: "player", type:"image", src: "data/img/orcSpear.png"},
 	//resource for bases img
-	{name: "tower", type:"image", src: "data/img/tower_round.svg.png"}, 
+	{name: "tower", type:"image", src: "data/img/tower_round.svg.png"},
+	{name: "creep1", type:"image", src: "data/img/brainmonster.png"},
 	/* Atlases 
 	 * @example
 	 * {name: "example_tps", type: "tps", src: "data/img/example_tps.json"},

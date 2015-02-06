@@ -22,7 +22,7 @@ game.PlayerEntity = me.Entity.extend ({
 		}]);
 
 		//tells movement of player when moved
-		this.body.setVelocity(5, 0);
+		this.body.setVelocity(5, 20);
 	},
 		//current postion changes by setVelocity() 
 		//me.timer.tick keeps movement smooth

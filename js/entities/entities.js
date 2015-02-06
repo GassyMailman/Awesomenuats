@@ -25,6 +25,16 @@ game.PlayerEntity = me.Entity.extend ({
 		this.body.setVelocity(5, 20);
 		this.facing = "right";
 
+		this.now = new Date().getTime();
+		//sets variable to current date/time
+		this.lastHit = this.now;
+		//finds the date when your last hit player 
+		this.lastAttack = new Date();
+		//havent used this yet
+
+		me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
+		//makes screen follow player movement
+
 		//setting an idle image	
 		this.renderable.addAnimation("idle", [65]);
 		//creating a walk animation using orcSpear img
@@ -37,6 +47,8 @@ game.PlayerEntity = me.Entity.extend ({
 		//current postion changes by setVelocity() 
 		//me.timer.tick keeps movement smooth
 	update: function(delta) {
+		this.now = new Date().getTime();
+
 		if(me.input.isKeyPressed("right")) {
 			this.body.vel.x += this.body.accel.x * me.timer.tick;
 			//flips the animation for right movement
@@ -76,7 +88,7 @@ game.PlayerEntity = me.Entity.extend ({
 			//uses animation if not already in use
 		}
 		//shows action on attacking
-		else if(this.body.vel.x !== 0){
+		else if(this.body.vel.x !== 0 && !this.renderable.isCurrentAnimation("attack")){
 			if(!this.renderable.isCurrentAnimation("walk")) {
 				//makes walk animation occur when moving
 				//does so if not already walk animation
@@ -84,7 +96,7 @@ game.PlayerEntity = me.Entity.extend ({
 			}
 		}
 		//adds if statement for movement
-		else {
+		else if(!this.renderable.isCurrentAnimation("attack")) {
 			//makes sure to switch back to idle animation
 			this.renderable.setCurrentAnimation("idle");
 		}
@@ -126,7 +138,11 @@ game.PlayerEntity = me.Entity.extend ({
 					//move player away slightly
 				}
 			}
+			if(this.renderable.isCurrentAnimation("attack") && this.now - this.lastHit >= 1000) {
+					this.lastHit = this.now;
+					response.b.loseHealth();
 		}
+	}
  	
 });
 		game.PlayerBaseEntity = me.Entity.extend({
@@ -224,5 +240,9 @@ game.PlayerEntity = me.Entity.extend ({
 		
 			onCollision: function() {
 				//empty onCollision function for later
+			},
+
+			loseHealth: function() {
+				this.health--;
 	}
 }); 

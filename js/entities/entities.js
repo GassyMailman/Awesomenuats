@@ -21,17 +21,21 @@ game.PlayerEntity = me.Entity.extend ({
 			}
 		}]);
 
+		//tells movement of player when moved
 		this.body.setVelocity(5, 0);
 	},
-
+		//current postion changes by setVelocity() 
+		//me.timer.tick keeps movement smooth
 	update: function(delta) {
 		if(me.input.isKeyPressed("right")) {
 			this.body.vel.x += this.body.accel.x * me.timer.tick;
 		}
 		else {
+			//if not pressing, no change in velocity
 			this.body.vel.x = 0;
 		}
 
+		//lets game know to update screen
 		this.body.update(delta);
 		return true;
  	

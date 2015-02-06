@@ -14,6 +14,7 @@ game.PlayScreen = me.ScreenObject.extend({
 		//adds him to the game and sets his layer-level
 		me.game.world.addChild(player, 5);
 
+		//binding right to be able to perform action
 		me.input.bindKey(me.input.KEY.RIGHT, "right");
 
 		// add our HUD to the game world

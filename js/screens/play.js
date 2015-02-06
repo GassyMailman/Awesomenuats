@@ -14,6 +14,9 @@ game.PlayScreen = me.ScreenObject.extend({
 		//adds him to the game and sets his layer-level
 		me.game.world.addChild(player, 5);
 
+		var gamemanager = me.pool.pull("GameManager", 0, 0, {});
+		me.game.world.addChild(gamemanager, 0);
+
 		//binding right to be able to perform action
 		me.input.bindKey(me.input.KEY.RIGHT, "right");
 		//binding left to be able to perform action

@@ -48,6 +48,8 @@ var game = {
 		me.pool.register("EnemyBase", game.EnemyBaseEntity);
 		//loading the EnemyCreep entity
 		me.pool.register("EnemyCreep", game.EnemyCreep, true);
+		//GameManager for things like timers
+		me.pool.register("GameManager", game.GameManager);
 		
 
 		me.state.set(me.state.MENU, new game.TitleScreen());

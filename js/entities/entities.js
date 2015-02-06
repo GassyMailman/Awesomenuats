@@ -23,8 +23,10 @@ game.PlayerEntity = me.Entity.extend ({
 
 		//tells movement of player when moved
 		this.body.setVelocity(5, 20);
+		this.facing = "right";
+
 		//setting an idle image	
-		this.renderable.addAnimation("idle", [78]);
+		this.renderable.addAnimation("idle", [65]);
 		//creating a walk animation using orcSpear img
 		this.renderable.addAnimation("walk", [117, 118, 119, 120, 121, 122, 123, 124, 125], 80);
 		//creating an animationg for attacking
@@ -39,6 +41,7 @@ game.PlayerEntity = me.Entity.extend ({
 			this.body.vel.x += this.body.accel.x * me.timer.tick;
 			//flips the animation for right movement
 			this.flipX(true);
+			this.facing = "right";
 		}
 		//current postion changes by setVelocity() 
 		//me.timer.tick keeps movement smooth
@@ -46,14 +49,15 @@ game.PlayerEntity = me.Entity.extend ({
 			this.body.vel.x -= this.body.accel.x * me.timer.tick;
 			//stops animation from flipping to right when moving left
 			this.flipX(false);
+			this.facing = "left";
 		}
 		else {
 			//if not pressing, no change in velocity
 			this.body.vel.x = 0;
 		}
 
-		if(me.input.isKeyPressed("jump") && !this.jumping && !this.falling) {
-			this.jumping = true;
+		if(me.input.isKeyPressed("jump") && !this.body.jumping && !this.body.falling) {
+			this.body.jumping = true;
 			//sets precreated jumping var to true
 			this.body.vel.y -= this.body.accel.y * me.timer.tick;
 			//causes jump to actually happen
@@ -85,12 +89,29 @@ game.PlayerEntity = me.Entity.extend ({
 			this.renderable.setCurrentAnimation("idle");
 		}
 
+		me.collision.check(this, true, this.collideHandler.bind(this), true);
 		//lets game know to update screen
 		this.body.update(delta);
 		//updates in real time
 		this._super(me.Entity, "update", [delta]);
 		return true;
-	}
+		},
+
+		collideHandler : function(response) {
+			if(response.b.type === 'EnemyBaseEntity') {
+				var ydif = this.pos.y - response.b.pos.y;
+				var xdif = this.pos.x - response.b.pos.x;
+	
+				if(xdif > -35 && this.facing === 'right' && (xdif < 0)) {
+					this.body.vel.x = 0;
+					this.pos.x = this.pos.x - 1;
+				}
+				else if(xdif < 70 && this.facing === 'left' && xdif > 0) {
+					this.body.vel.x = 0;
+					this.pos.x = this.pos.x + 1;
+				}
+			}
+		}
  	
 });
 		game.PlayerBaseEntity = me.Entity.extend({

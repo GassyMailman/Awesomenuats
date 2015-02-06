@@ -92,8 +92,11 @@ game.PlayerEntity = me.Entity.extend ({
 				this.body.onCollision = this.onCollision.bind(this); //able to collide w/ tower
 		
 				this.type = "PlayerBaseEntity"; //later for other collisions
+				//add animation for unbroken tower
 				this.renderable.addAnimation("idle", [0]);
+				//add animation for broken tower
 				this.renderable.addAnimation("broken", [1]);
+				//sets the current animation to idle
 				this.renderable.setCurrentAnimation("idle");
 			}, 
 			//init function for initialize
@@ -101,6 +104,7 @@ game.PlayerEntity = me.Entity.extend ({
 			update: function(delta) {
 				if(this.health <= 0) {
 					this.broken = true;
+					//sets the current animation to broken
 					this.renderable.setCurrentAnimation("broken");
 				}
 				//if health <= 0 then tower broken 
@@ -137,8 +141,11 @@ game.PlayerEntity = me.Entity.extend ({
 				this.body.onCollision = this.onCollision.bind(this); //able to collide w/ tower
 		
 				this.type = "EnemyBaseEntity"; //later for other collisions
+				//add animation for unbroken tower
 				this.renderable.addAnimation("idle", [0]);
+				//add animation for broken tower
 				this.renderable.addAnimation("broken", [1]);
+				//sets the current animation to idle
 				this.renderable.setCurrentAnimation("idle");
 			}, 
 			//init function for initialize
@@ -146,6 +153,7 @@ game.PlayerEntity = me.Entity.extend ({
 			update: function(delta) {
 				if(this.health <= 0) {
 					this.broken = true;
+					//sets the current animation to broken
 					this.renderable.setCurrentAnimation("broken");
 				}
 				//if health <= 0 then tower broken 

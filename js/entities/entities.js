@@ -165,7 +165,7 @@ game.PlayerEntity = me.Entity.extend ({
 				this.alwaysUpdate = true; //update if not on screen 
 				this.body.onCollision = this.onCollision.bind(this); //able to collide w/ tower
 		
-				this.type = "PlayerBaseEntity"; //later for other collisions
+				this.type = "PlayerBase"; //later for other collisions
 				//add animation for unbroken tower
 				this.renderable.addAnimation("idle", [0]);
 				//add animation for broken tower
@@ -193,7 +193,8 @@ game.PlayerEntity = me.Entity.extend ({
 				//empty onCollision function for later
 			},
 
-			loseHealth: function() {
+			loseHealth: function(damage) {
+			this.health = this.health - damage;
 			}
 		}); 
 		//base entity similar to player
@@ -266,6 +267,12 @@ game.PlayerEntity = me.Entity.extend ({
 					this.health = 2;
 					this.alwaysUpdate = true;
 			
+					this.attacking = false;
+
+					this.lastAttacking = new Date().getTime();
+					this.lastHit = new Date().getTime();
+					this.now = new Date().getTime();
+
 					this.body.setVelocity(3, 20);
 			
 					this.type="EnemyCreep";
@@ -275,7 +282,11 @@ game.PlayerEntity = me.Entity.extend ({
 				},
 			
 				update : function(delta) {
+						this.now = new Date().getTime();
+			//causes creep to move
 			this.body.vel.x -= this.body.accel.x * me.timer.tick;
+
+			me.collision.check(this, true, this.collideHandler.bind(this), true);
 
 			this.body.update(delta);
 
@@ -283,6 +294,19 @@ game.PlayerEntity = me.Entity.extend ({
 			return true;
 
 	},
+
+			collideHandler: function(response) {
+			if(response.b.type === 'PlayerBase') {
+				this.attacking = true;
+				this.lastAttacking = this.now;
+				this.body.vel.x = 0;
+				this.pos.x = this.pos.x + 1;
+				if(this.now - this.lastHit >= 1000) {
+					this.lastHit = this.now;
+					response.b.loseHealth(1);
+				}
+			}
+		},	
 
 		loseHealth: function() {
 		}

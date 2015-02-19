@@ -274,6 +274,8 @@ game.PlayerEntity = me.Entity.extend ({
 					this.health = 2;
 					this.alwaysUpdate = true;
 			
+					this.facing = 'left';
+
 					this.attacking = false;
 
 					this.lastAttacking = new Date().getTime();
@@ -328,7 +330,7 @@ game.PlayerEntity = me.Entity.extend ({
 					this.body.vel.x = 0;
 				}	
 
-				if((this.now - this.lastHit >= 1000) && xdif > 0) {
+				if ((this.now - this.lastHit >= 1000) && xdif > 0) {
 					this.lastHit = this.now;
 					//reset?
 					response.b.loseHealth(1);
@@ -336,10 +338,46 @@ game.PlayerEntity = me.Entity.extend ({
 				}
 				//times out the hits
 			}
-		},	
+			else if (response.b.type === 'JumpTrigger') {
+			var xdif = this.pos.x - response.b.pos.x;
+
+			if (xdif < 61) {
+				this.body.jumping = true;
+				this.body.vel.y -= this.body.accel.y * me.timer.tick;
+			}
+		}
+	},	
 
 		loseHealth: function() {
 		}
+});
+						game.JumpTrigger = me.Entity.extend({
+			init : function(x, y, settings) {
+				this._super(me.Entity, 'init', [x, y, {
+					width: 64, //sets width to 32
+					height: 32, //sets height to 64
+					spritewidth: "64", //same as width
+					spriteheight: "32", //same as height
+					getShape: function() {
+						return (new me.Rect(0, 0, 64, 32)).toPolygon();
+					}
+					//getShape function creates rectangle for enemy
+			}]);
+		
+				console.log("hello");
+		
+				this.type = "JumpTrigger";
+		
+				this.alwaysUpdate = true; //update if not on screen 
+				// this.body.onCollision = this.onCollision.bind(this);
+		},
+		
+			update: function(delta) {
+				this.body.update(delta); //update for this
+		
+				this._super(me.Entity, "update", [delta]); //have to call super
+				return true;
+		},
 });
 
 				game.GameManager = Object.extend({

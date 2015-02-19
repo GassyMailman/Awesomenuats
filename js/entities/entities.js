@@ -21,6 +21,9 @@ game.PlayerEntity = me.Entity.extend ({
 			}
 		}]);
 
+		this.type = "PlayerEntity";
+		this.health = 100;
+
 		//tells movement of player when moved
 		this.body.setVelocity(5, 20);
 		this.facing = "right";
@@ -142,6 +145,10 @@ game.PlayerEntity = me.Entity.extend ({
 					this.lastHit = this.now;
 					response.b.loseHealth();
 		}
+	},
+ 	//collideHandler function creates collsision for player w/ objects
+	loseHealth : function(damage) {
+		this.health = this.health - damage;
 	}
  	
 });
@@ -305,6 +312,29 @@ game.PlayerEntity = me.Entity.extend ({
 					this.lastHit = this.now;
 					response.b.loseHealth(1);
 				}
+					} //if the creep hits player base
+			else if (response.b.type === 'PlayerEntity') {
+				var xdif = this.pos.x - response.b.pos.x;
+
+				this.attacking = true;
+				this.lastAttacking = this.now;
+				this.body.vel.x = 0;
+				//stops movement
+
+				if(xdif > 0) {
+					console.log(xdif);
+					this.pos.x = this.pos.x + 1; 
+					//keeps moving creep to right to maintain its position
+					this.body.vel.x = 0;
+				}	
+
+				if((this.now - this.lastHit >= 1000) && xdif > 0) {
+					this.lastHit = this.now;
+					//reset?
+					response.b.loseHealth(1);
+					//calls loseHealth function with one damage
+				}
+				//times out the hits
 			}
 		},	
 

@@ -140,10 +140,39 @@ game.PlayerEntity = me.Entity.extend ({
 					this.pos.x = this.pos.x + 1;
 					//move player away slightly
 				}
+
+				if(this.renderable.isCurrentAnimation("attack") && this.now - this.lastHit >= 1000) {
+				this.lastHit = this.now;
+				response.b.loseHealth();
+			  }
 			}
-			if(this.renderable.isCurrentAnimation("attack") && this.now - this.lastHit >= 1000) {
-					this.lastHit = this.now;
-					response.b.loseHealth();
+
+			else if (response.b.type === 'EnemyCreep')  {
+				var xdif = this.pos.x - response.b.pos.x; //sets xdif to x position
+				var ydif = this.pos.y - response.b.pos.y; //sets ydif to y position
+
+			if(xdif > 0) {
+				this.pos.x = this.pos.x + 1;
+				if (this.facing === "left") {
+					this.body.vel.x = 0;
+				}
+				//prevents left movement with creep
+			}
+			else {
+				this.pos.x = this.pos.x - 1;
+				if (this.facing === "right") {
+					this.body.vel.x = 0;
+				}
+				//prevents right movement with creep
+			}
+
+			if(this.renderable.isCurrentAnimation("attack") && this.now - this.lastHit >= 1000 
+				(((xdif > 0) && this.facing === "left") || ((xdif < 0) && this.facing === "right"))) {
+				&& (Math.abs(ydif) <= 40) && 
+				this.health = this.now; //makes current health health
+				response.b.loseHealth(1); //lose 1 health
+			}
+			//function activates attack based on ...
 		}
 	},
  	//collideHandler function creates collsision for player w/ objects
@@ -271,7 +300,7 @@ game.PlayerEntity = me.Entity.extend ({
 						}
 					}]);
 			
-					this.health = 2;
+					this.health = 10;
 					this.alwaysUpdate = true;
 			
 					this.facing = 'left';
@@ -289,8 +318,16 @@ game.PlayerEntity = me.Entity.extend ({
 					this.renderable.addAnimation("walk", [3, 4, 5], 80);
 					this.renderable.setCurrentAnimation("walk");
 				},
+
+				loseHealth: function(damage) {
+					//losehealth function to take damage
+					this.health = this.health - damage;
+				},
 			
 				update : function(delta) {
+					if(this.health <= 0) {
+						me.game.world.removeChild(this);
+					}
 						this.now = new Date().getTime();
 			//causes creep to move
 			this.body.vel.x -= this.body.accel.x * me.timer.tick;
@@ -347,9 +384,6 @@ game.PlayerEntity = me.Entity.extend ({
 			}
 		}
 	},	
-
-		loseHealth: function() {
-		}
 });
 						game.JumpTrigger = me.Entity.extend({
 			init : function(x, y, settings) {

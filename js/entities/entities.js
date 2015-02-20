@@ -22,10 +22,10 @@ game.PlayerEntity = me.Entity.extend ({
 		}]);
 
 		this.type = "PlayerEntity";
-		this.health = 100;
+		this.health = game.data.playerHealth;
 
 		//tells movement of player when moved
-		this.body.setVelocity(5, 20);
+		this.body.setVelocity(game.data.playerMoveSpeed, 20);
 		this.facing = "right";
 
 		this.now = new Date().getTime();
@@ -141,9 +141,9 @@ game.PlayerEntity = me.Entity.extend ({
 					//move player away slightly
 				}
 
-				if(this.renderable.isCurrentAnimation("attack") && this.now - this.lastHit >= 1000) {
+				if(this.renderable.isCurrentAnimation("attack") && this.now - this.lastHit >= game.data.playerAttackTimer) {
 				this.lastHit = this.now;
-				response.b.loseHealth();
+				response.b.loseHealth(game.data.playerAttack);
 			  }
 			}
 
@@ -166,11 +166,11 @@ game.PlayerEntity = me.Entity.extend ({
 				//prevents right movement with creep
 			}
 
-			if(this.renderable.isCurrentAnimation("attack") && this.now - this.lastHit >= 1000 
+			if(this.renderable.isCurrentAnimation("attack") && this.now - this.lastHit >= game.data.playerAttackTimer 
 				(((xdif > 0) && this.facing === "left") || ((xdif < 0) && this.facing === "right"))) {
 				&& (Math.abs(ydif) <= 40) && 
 				this.health = this.now; //makes current health health
-				response.b.loseHealth(1); //lose 1 health
+				response.b.loseHealth(game.data.playerAttack); //lose 1 health
 			}
 			//function activates attack based on ...
 		}
@@ -197,7 +197,7 @@ game.PlayerEntity = me.Entity.extend ({
 				//build constructor by calling super
 		
 				this.broken = false; //tower not destroyed
-				this.health = 10; //health of the tower
+				this.health = game.data.playerBaseHealth; //health of the tower
 				this.alwaysUpdate = true; //update if not on screen 
 				this.body.onCollision = this.onCollision.bind(this); //able to collide w/ tower
 		
@@ -250,7 +250,7 @@ game.PlayerEntity = me.Entity.extend ({
 				//build constructor by calling super
 		
 				this.broken = false; //tower not destroyed
-				this.health = 10; //health of the tower
+				this.health = game.data.enemyBaseHealth; //health of the tower
 				this.alwaysUpdate = true; //update if not on screen 
 				this.body.onCollision = this.onCollision.bind(this); //able to collide w/ tower
 		
@@ -300,7 +300,7 @@ game.PlayerEntity = me.Entity.extend ({
 						}
 					}]);
 			
-					this.health = 10;
+					this.health = game.data.enemyCreepHealth;
 					this.alwaysUpdate = true;
 			
 					this.facing = 'left';
@@ -349,7 +349,7 @@ game.PlayerEntity = me.Entity.extend ({
 				this.pos.x = this.pos.x + 1;
 				if(this.now - this.lastHit >= 1000) {
 					this.lastHit = this.now;
-					response.b.loseHealth(1);
+					response.b.loseHealth(game.data.enemyCreepAttack);
 				}
 					} //if the creep hits player base
 			else if (response.b.type === 'PlayerEntity') {
@@ -370,7 +370,7 @@ game.PlayerEntity = me.Entity.extend ({
 				if ((this.now - this.lastHit >= 1000) && xdif > 0) {
 					this.lastHit = this.now;
 					//reset?
-					response.b.loseHealth(1);
+					response.b.loseHealth(game.data.enemyCreepAttack);
 					//calls loseHealth function with one damage
 				}
 				//times out the hits
@@ -425,7 +425,8 @@ game.PlayerEntity = me.Entity.extend ({
 					update: function() {
 						this.now = new Date().getTime();
 				
-						if(Math.round(this.now/1000) % 10 === 0 && (this.now - this.lastCreep >= 1000)) {
+						if(Math.round(this.now/game.data.creepAttackTimer) % 10 === 0 && 
+							(this.now - this.lastCreep >= game.data.creepAttackTimer)) {
 							this.lastCreep = this.now;
 							var creepe = me.pool.pull("EnemyCreep", 1000, 0, {});
 							me.game.world.addChild(creepe, 5);

@@ -27,13 +27,12 @@ game.PlayerEntity = me.Entity.extend ({
 		//tells movement of player when moved
 		this.body.setVelocity(game.data.playerMoveSpeed, 20);
 		this.facing = "right";
-
-		this.now = new Date().getTime();
 		//sets variable to current date/time
+		this.now = new Date().getTime();
+		//finds the date when your last hit player
 		this.lastHit = this.now;
-		//finds the date when your last hit player 
 		this.lastAttack = new Date();
-		//havent used this yet
+		
 
 		me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
 		//makes screen follow player movement
@@ -51,6 +50,13 @@ game.PlayerEntity = me.Entity.extend ({
 		//me.timer.tick keeps movement smooth
 	update: function(delta) {
 		this.now = new Date().getTime();
+
+		//the player is "dead"
+		if(this.health <= 0) {
+			this.dead = true;
+			//if players health hits 0
+		}
+		
 
 		if(me.input.isKeyPressed("right")) {
 			this.body.vel.x += this.body.accel.x * me.timer.tick;
@@ -398,9 +404,9 @@ game.PlayerEntity = me.Entity.extend ({
 					//getShape function creates rectangle for enemy
 			}]);
 		
-				console.log("hello");
+				//console.log("hello");
 		
-				this.type = "JumpTrigger";
+				//this.type = "JumpTrigger";
 		
 				this.alwaysUpdate = true; //update if not on screen 
 				// this.body.onCollision = this.onCollision.bind(this);
@@ -424,6 +430,12 @@ game.PlayerEntity = me.Entity.extend ({
 				
 					update: function() {
 						this.now = new Date().getTime();
+
+					if(game.data.player.dead) {
+						me.game.world.removeChild(game.data.player); //remove dead player body
+						me.state.current().resetPlayer(10, 0); //respawn the player 
+		}
+		//if the player is dead
 				
 						if(Math.round(this.now/game.data.creepAttackTimer) % 10 === 0 && 
 							(this.now - this.lastCreep >= game.data.creepAttackTimer)) {

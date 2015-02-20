@@ -22,9 +22,8 @@ game.PlayScreen = me.ScreenObject.extend({
 		//loads level
 		me.levelDirector.loadLevel("level01");
 		//pulls the player entity from the pool
-		var player = me.pool.pull("player", 0, 420, {});
-		//adds him to the game and sets his layer-level
-		me.game.world.addChild(player, 5);
+		this.resetPlayer(0, 420);
+		//reset or respawn the player
 
 		var gamemanager = me.pool.pull("GameManager", 0, 0, {});
 		me.game.world.addChild(gamemanager, 0);
@@ -49,5 +48,12 @@ game.PlayScreen = me.ScreenObject.extend({
 	onDestroyEvent: function() {
 		// remove the HUD from the game world
 		me.game.world.removeChild(this.HUD);
+		},
+
+	resetPlayer: function(x, y) {
+		game.data.player = me.pool.pull("player", 0, 420, {}); 
+		//player recreate from game.js
+		me.game.world.addChild(game.data.player, 5); 
+		//adding into "world"
 	}
 });

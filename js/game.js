@@ -6,6 +6,28 @@ var game = {
 	data : {
 		// score
 		score : 0
+		enemyBaseHealth: 10, //global var for enemy base health 
+ 		playerBaseHealth: 10, //global var for player base health 
+ 		enemyCreepHealth: 10, //global var for creep health
+ 		playerHealth: 10, //global var for players health
+		gloopHealth: 10,
+ 		enemyCreepAttack: 1, //damage for creeps attack
+ 		playerAttack: 1, //damage for players attack
+		gloopAttack: 1,
+ 		playerAttackTimer: 1000, //time for player attack
+ 		creepAttackTimer: 500, //time for creep attack
+		gloopAttackTimer: 500, //time for creep attack
+ 		playerMoveSpeed: 5, //speed of player
+ 		creepMoveSpeed: 5, //speed of creep
+		gloopMoveSpeed: 5, //speed of creep
+ 		gameManager: "", 
+ 		player: "",
+		exp: 0,
+		gold: 0,
+		exp1: 0,
+		exp2: 0,
+		exp3: 0,
+		exp4: 0 
 	},
 	
 	
@@ -46,6 +68,8 @@ var game = {
 		me.pool.register("PlayerBase", game.PlayerBaseEntity);
 		//loading the EnemyBase entity
 		me.pool.register("EnemyBase", game.EnemyBaseEntity);
+		//loading the EnemyCreep entity
+		me.pool.register("EnemyGloop", game.EnemyGloop, true);
 		//loading the EnemyCreep entity
 		me.pool.register("EnemyCreep", game.EnemyCreep, true);
 		//loading Jumptrigger entity

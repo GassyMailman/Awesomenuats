@@ -13,7 +13,8 @@ game.resources = [
 	//resource for bases img
 	{name: "tower", type:"image", src: "data/img/tower_round.svg.png"},
 	{name: "creep1", type:"image", src: "data/img/brainmonster.png"}, //resource from enemy creep
-	{name: "title-screen", type:"image", src: "data/img/title.png"},
+	{name: "creep2", type:"image", src: "data/img/gloop.png"}, //resource from teamate creep
+	{name: "title-screen", type:"image", src: "data/img/title.png"}, //resource that load title screen img
 	/* Atlases 
 	 * @example
 	 * {name: "example_tps", type: "tps", src: "data/img/example_tps.json"},

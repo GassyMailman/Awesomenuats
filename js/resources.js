@@ -11,6 +11,7 @@ game.resources = [
 	{name: "creep1", type:"image", src: "data/img/brainmonster.png"}, //resource from enemy creep
 	{name: "creep2", type:"image", src: "data/img/gloop.png"}, //resource from teamate creep
 	{name: "title-screen", type:"image", src: "data/img/title.png"}, //resource that load title screen img
+	{name: "exp-screen", type:"image", src: "data/img/loadpic.png"}, //resource that loads exp screen pic
 
 	/* Atlases 
 	 * @example
@@ -23,6 +24,7 @@ game.resources = [
 	 * {name: "example01", type: "tmx", src: "data/map/example01.json"},
  	 */
  	{name: "level1", type: "tmx", src: "data/map/level1.tmx"}, //test map
+ 	{name: "level2", type: "tmx", src: "data/map/level2.tmx"}, //better map
 
 	/* Background music. 
 	 * @example

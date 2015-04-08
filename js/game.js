@@ -6,9 +6,11 @@ var game = {
 	data : {
 		// score
 		score : 0,
+		option1: "", //empty var for pointer release
+		option2: "", //epmty var for pointer release
 		enemyBaseHealth: 10, //global var for enemy base health 
 		playerBaseHealth: 10, //global var for player base health 
-		enemyCreepHealth: 10, //global var for creep health
+		enemyCreepHealth: 5, //global var for creep health
 		playerHealth: 20, //global var for players health
 		gloopHealth: 10, //global var for teammate health
 		enemyCreepAttack: 1, //damage for creeps attack
@@ -21,16 +23,30 @@ var game = {
 		creepMoveSpeed: 5, //speed of creep
 		gloopMoveSpeed: 5, //speed of creep
 		gameTimerManager: "", //global var game manager
-		heroDeathManager: "", //global var death managerr
+		heroDeathManager: "", //global var death manager
+		spearTimer: 15000,
 		player: "",
 		exp: 0, //experience var number
 		gold: 0, //number of gold player has
+		//added vars for cost of things in buyscreen
+		skill1: 0,
+		skill2: 0,
+		skill3: 0,
+		ability1: 0,
+		ability2: 0,
+		ability3: 0,
 		//different options for use of experience below
 		exp1: 0, 
 		exp2: 0,
 		exp3: 0,
 		exp4: 0,
-		win: ""
+		win: "",
+		pausePos: "", 
+		buyscreen: "",
+		//2 new random vars
+		buytext: "",
+		minimap: "", //empty minimap global var
+		miniplayer: "" //empty miniplayer var
 	},
 	
 	
@@ -49,17 +65,12 @@ var game = {
 		});
 	}
 
-	me.save.add({
-		exp: 0,
-		exp1: 0,
-		exp2: 0,
-		exp3: 0,
-		exp4: 0
-	});
-	//function to save exp values
-
 	me.state.SPENDEXP = 112;
 	//gives number value to spendexp
+	me.state.LOAD = 113;
+	//gives number value to load
+	me.state.NEW = 114;
+	//gives number value to load
 
 	// Initialize the audio.
 	me.audio.init("mp3,ogg");
@@ -94,10 +105,20 @@ var game = {
 		//GameManager for things like your players death
 		me.pool.register("ExperienceManager", game.ExperienceManager);
 		//GameManager for handling experience the player earns
+		me.pool.register("SpendGold", game.SpendGold);
+		//GameManager for handling buying stuff w/ gold
+		me.pool.register("spear", game.SpearThrow, true);
+		//adds spear entity into entity pool
+		me.pool.register("minimap", game.MiniMap, true);
+		//registers minimap in entity pool
+		me.pool.register("miniplayer", game.MiniPlayerLocation, true);
+		//registers minimap in entity pool
 
-		me.state.set(me.state.MENU, new game.TitleScreen());
-		me.state.set(me.state.PLAY, new game.PlayScreen());
-		me.state.set(me.state.SPENDEXP, new game.SpendExp());
+		me.state.set(me.state.MENU, new game.TitleScreen()); //gives info for menu state
+		me.state.set(me.state.PLAY, new game.PlayScreen()); //gives info for play state
+		me.state.set(me.state.SPENDEXP, new game.SpendExp()); //gives info for spend exp state
+		me.state.set(me.state.LOAD, new game.LoadProfile()); //gives info for load profile state
+		me.state.set(me.state.NEW, new game.NewProfile()); //gives info for new profile state
 
 		// Start the game.
 		me.state.change(me.state.MENU);

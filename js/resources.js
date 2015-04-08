@@ -12,6 +12,11 @@ game.resources = [
 	{name: "creep2", type:"image", src: "data/img/gloop.png"}, //resource from teamate creep
 	{name: "title-screen", type:"image", src: "data/img/title.png"}, //resource that load title screen img
 	{name: "exp-screen", type:"image", src: "data/img/loadpic.png"}, //resource that loads exp screen pic
+	{name: "gold-screen", type:"image", src: "data/img/spend.png"}, //resource that loads exp screen pic
+	{name: "load-screen", type:"image", src: "data/img/loadpic.png"}, //resource that loads exp screen pic, but for continue
+	{name: "new-screen", type:"image", src: "data/img/newpic.png"}, // resource loads pic for new profile
+	{name: "spear", type:"image", src: "data/img/spear.png"}, //adds spear resourec
+	{name: "minimap", type:"image", src: "data/img/miniMap.png"}, //adds minimap pic into game
 
 	/* Atlases 
 	 * @example

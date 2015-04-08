@@ -40,6 +40,7 @@ game.PlayerEntity = me.Entity.extend({
 		this.lastHit = this.now;
 		//finds the date when your last hit player
 		this.lastAttack = new Date().getTime();
+		this.lastSpear = this.now;
 	},
 	//will store all of our timers
 
@@ -80,6 +81,8 @@ game.PlayerEntity = me.Entity.extend({
 
 		this.checkKeyPressesAndMove();
 		//function checks for movement 
+
+		this.checkAbilityKeys();
 
 		this.setAnimation();
 		//calls set animation rather than animation code in update
@@ -153,6 +156,30 @@ game.PlayerEntity = me.Entity.extend({
 		//sets precreated jumping var to true
 		this.body.vel.y -= this.body.accel.y * me.timer.tick;
 		//causes jump to actually happen
+	},
+
+	checkAbilityKeys: function() {
+		if (me.input.isKeyPressed("skill1")) {
+			// this.speedBurst();
+		} //if you use skill 1
+		else if (me.input.isKeyPressed("skill2")) {
+			// this.eatCreep();
+		} // if you use skill 2
+		else if (me.input.isKeyPressed("skill3")) {
+			this.throwSpear(); //goes to throwSpear function
+		} //if you use skill 3
+	},
+
+	throwSpear: function() {
+		if((this.now - this.lastSpear) >= game.data.spearTimer && game.data.ability3 > 0) {
+			this.lastSpear = this.now;
+			//resets time
+			var spear = me.pool.pull("spear", this.pos.x, this.pos.y, {}, this.facing);
+			//pulls spear class from pool
+			me.game.world.addChild(spear, 10);
+			//inserts spear into actual game
+		}
+		//if you wait between throws and have ability
 	},
 
 	setAnimation: function() {
@@ -229,7 +256,7 @@ game.PlayerEntity = me.Entity.extend({
 		if(this.renderable.isCurrentAnimation("attack") && 
 			this.now - this.lastHit >= game.data.playerAttackTimer /* uses timing global var */ ) {
 			this.lastHit = this.now;
-			response.b.loseHealth(game.data.playerAttack + (game.data.exp3 *3));
+			response.b.loseHealth(game.data.playerAttack + (game.data.exp3 * 5));
 			//causes to remove health
 			//uses global var
 		}

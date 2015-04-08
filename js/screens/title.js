@@ -6,7 +6,7 @@ game.TitleScreen = me.ScreenObject.extend({
 		me.game.world.addChild(new me.Sprite(0, 0, me.loader.getImage('title-screen')), -10); 
 		//added a title screen image that needs to load
 
-		me.game.world.addChild(new (me.Renderable.extend({
+		game.data.option1 = new (me.Renderable.extend({
 			init: function() {
 				this._super(me.Renderable, 'init', [270, 240, 300, 50]);
 				//basic settings for the title screen
@@ -29,27 +29,18 @@ game.TitleScreen = me.ScreenObject.extend({
 			newGame: function() {
 				me.input.releasePointerEvent('pointerdown', this);
 				//gets rid of pointerfunction
-				me.save.remove('exp');
-				me.save.remove('exp1');
-				me.save.remove('exp2');
-				me.save.remove('exp3');
-				me.save.remove('exp4');
-				//removes all these vars from game when start new
-				me.save.add({
-					exp: 0,
-					exp1: 0,
-					exp2: 0,
-					exp3: 0,
-					exp4: 0
-				});
-				//function to save exp values
-				me.state.change(me.state.PLAY);
-				//starts the game
+				me.input.releasePointerEvent('pointerdown', game.data.option2);
+				//gets rid of pointerfunction
+				me.state.change(me.state.NEW);
+				//loads screen for creating new account
 			}
-		})));
+		}));
 		//renderable starting new game
 
-		me.game.world.addChild(new (me.Renderable.extend({
+		me.game.world.addChild(game.data.option1);
+		//allows for releasepointerevent of other child
+
+		game.data.option2 = new (me.Renderable.extend({
 			init: function() {
 				this._super(me.Renderable, 'init', [380, 340, 300, 50]);
 				//basic settings for the title screen, diff position from start
@@ -70,19 +61,18 @@ game.TitleScreen = me.ScreenObject.extend({
 			},
 
 			newGame: function() {
-				game.data.exp = me.save.exp;
-				game.data.exp1 = me.save.exp1;
-				game.data.exp2 = me.save.exp2;
-				game.data.exp3 = me.save.exp3;
-				game.data.exp4 = me.save.exp4;
-
 				me.input.releasePointerEvent('pointerdown', this);
 				//gets rid of pointerfunction
-				me.state.change(me.state.SPENDEXP);
-				//loads spend exp screen
+				me.input.releasePointerEvent('pointerdown', game.data.option1);
+				//gets rid of pointerfunction
+				me.state.change(me.state.LOAD);
+				//loads load profile screen
 			}
-		})));
+		}));
 		//renderable for continuing game
+
+		me.game.world.addChild(game.data.option2);
+		//allows for releasepointerevent of other child
 
 	},
 	

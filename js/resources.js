@@ -17,6 +17,7 @@ game.resources = [
 	{name: "new-screen", type:"image", src: "data/img/newpic.png"}, // resource loads pic for new profile
 	{name: "spear", type:"image", src: "data/img/spear.png"}, //adds spear resourec
 	{name: "minimap", type:"image", src: "data/img/miniMap.png"}, //adds minimap pic into game
+    {name: "background-tiles-items", type:"image", src: "data/img/item-spritesheet.png"},
 
 	/* Atlases 
 	 * @example
